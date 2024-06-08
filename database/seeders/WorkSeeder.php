@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Technology;
 use App\Models\Type;
 use App\Models\Work;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -20,7 +21,9 @@ class WorkSeeder extends Seeder
 
         $id = $types->pluck('id')->all(); // array di id [1,2,3,4,5]
 
+        $technologies = Technology::all();
 
+        $tech_id= $technologies->pluck('id')->all();
 
 
         for($i=0; $i<10; $i++){
@@ -34,7 +37,16 @@ class WorkSeeder extends Seeder
 
             $new_work->type_id = $faker->optional()->randomElement($id);
 
+            //qui il work non ha un technology_id
             $new_work->save();
+
+            //prendo un numero random di id di technologies
+
+            // restituisce un numero di elementi random; con null il numero di restituxioni è random, altrimenti è impostato ad 1. Si può mettere un numero al posto di null per decidere il numero di restituzioni in array.
+            $random_tech_id = $faker->randomElements($tech_id, null);
+
+            // collego il $random_tech_id a $new_work grazie al metodo del model
+            $new_work->technologies()->attach($random_tech_id);
         }
     }
 }

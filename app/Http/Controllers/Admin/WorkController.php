@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWorkRequest;
 use App\Http\Requests\UpdateWorkRequest;
+use App\Models\Technology;
 use App\Models\Type;
 use App\Models\Work;
 use Illuminate\Http\Request;
@@ -28,6 +29,9 @@ class WorkController extends Controller
     public function create()
     {
         $types = Type::all();
+        $technologies = Technology::orderBy('name', 'asc')->get();
+
+        dd($technologies);
 
         return view('admin.works.create', compact('types'));
     }
