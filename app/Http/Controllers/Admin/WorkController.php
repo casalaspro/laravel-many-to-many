@@ -31,9 +31,9 @@ class WorkController extends Controller
         $types = Type::all();
         $technologies = Technology::orderBy('name', 'asc')->get();
 
-        dd($technologies);
+        // dd($technologies);
 
-        return view('admin.works.create', compact('types'));
+        return view('admin.works.create', compact('types', 'technologies'));
     }
 
     /**
@@ -74,6 +74,12 @@ class WorkController extends Controller
 
         $work = Work::create($form_data);
 
+        // let's check if some technologies are sent
+        if($request->has('technologies')){
+            // it doesn't recall the key but the method
+            $work->technologies()->attach($request->technologies);
+        }
+
 
 
         return redirect()->route('admin.works.show', $work);
@@ -88,6 +94,9 @@ class WorkController extends Controller
      */
     public function show(Work $work)
     {
+        //eager loading
+        $work->load(['type', 'type.works']);
+
         return view('admin.works.show', compact('work'));
     }
 
@@ -97,8 +106,12 @@ class WorkController extends Controller
     public function edit(Work $work)
     {
 
+        $work->load(['technologies']);
+        $types = Type::orderBy('name', 'asc')->get();
+        $technologies = Technology::orderBy('name', 'asc')->get();
+
         // dd($work);
-        return view('admin.works.edit', compact('work'));
+        return view('admin.works.edit', compact('work', 'types', 'technologies'));
     }
 
     /**

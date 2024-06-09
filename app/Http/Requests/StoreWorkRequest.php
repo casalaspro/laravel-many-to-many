@@ -25,7 +25,8 @@ class StoreWorkRequest extends FormRequest
             'title' => 'required|string|max:150',
             'description' => 'nullable|string',
             'github_link' => 'required|url',
-            'type_id' => 'nullable|exists:types,id'
+            'type_id' => 'nullable|exists:types,id',
+            'technologies' => 'exists:technologies,id'
         ];
     }
 }

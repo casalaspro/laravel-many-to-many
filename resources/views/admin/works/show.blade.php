@@ -12,7 +12,12 @@
         <p>{{ $work->slug }}</p>
         <h3>Type:</h3>
         <p>{{ $work->type ? $work->type->name : 'Type not selected.' }}</p>
-
+        <h3>Technologies Used</h3>
+        <ul class="technologies_used">
+          @foreach ($work->technologies as $technology)
+              <li>{{ $technology->name }}</li>
+          @endforeach
+        </ul>
         <h3>Description:</h3>
         <p>{{ $work->description }}</p>
         <h3>Link GitHub:</h3>

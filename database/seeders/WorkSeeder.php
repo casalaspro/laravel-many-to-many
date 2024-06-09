@@ -45,7 +45,7 @@ class WorkSeeder extends Seeder
             // restituisce un numero di elementi random; con null il numero di restituxioni è random, altrimenti è impostato ad 1. Si può mettere un numero al posto di null per decidere il numero di restituzioni in array.
             $random_tech_id = $faker->randomElements($tech_id, null);
 
-            // collego il $random_tech_id a $new_work grazie al metodo del model
+            // popolo la tabella work_technology grazie alla relazione technologies()
             $new_work->technologies()->attach($random_tech_id);
         }
     }
