@@ -27,7 +27,9 @@ class UpdateWorkRequest extends FormRequest
             'title' => 'required|string|max:150',
             'slug' => ['required', 'max:255', Rule::unique('works')->ignore($this->work)],
             'description' => 'nullable|string',
-            'github_link' => 'required|string'
+            'github_link' => 'required|string',
+            'type' => 'nullable|exists:types:id',
+            'technology' => 'exists:technologies:id'
         ];
     }
 }

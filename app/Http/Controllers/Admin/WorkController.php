@@ -117,7 +117,7 @@ class WorkController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Work $work)
+    public function update(UpdateWorkRequest $request, Work $work)
     {
         // $request->validate([
         //     'title' => 'required|string|max:150',
@@ -126,11 +126,19 @@ class WorkController extends Controller
         //     'github_link' => 'required|string'
         // ]);
 
-        $form_data = $request->all();
+        $form_data = $request->validated();
 
         // dd($form_data);
         $work->fill($form_data);
-        $work->save();
+        $work->update($form_data);
+
+        if($request->has('technologies')){
+            $work->technologies()->sync($request->technologies);
+        } else {
+            // the user hasn't selected anything so we delete the nounds with the technologies
+            $work->technologies()->detach();
+            // $work->technologies()->sync([]); did the same
+        }
 
         return to_route('admin.works.show', compact('work'));
     }
