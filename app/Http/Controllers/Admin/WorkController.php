@@ -70,6 +70,7 @@ class WorkController extends Controller
 
         }while($find !== null);
 
+        // i add the key 'slug' to $form_data before that it will be used to create a new Work instance
         $form_data['slug'] = $slug;
 
         $work = Work::create($form_data);
